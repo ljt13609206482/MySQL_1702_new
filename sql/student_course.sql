@@ -125,12 +125,9 @@ WHERE c.id = 2;
 # course - student_course 1:n
 
 
-
-
-
-
-
-
+SELECT count(*)
+FROM db_1702.ip
+WHERE geo RLIKE '拉萨市';
 
 
 
