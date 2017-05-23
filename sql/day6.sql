@@ -87,13 +87,3 @@ SELECT s.name, d.tel
 from student s INNER JOIN department d
 ON s.departmentId = d.id;
 */
-
--- 学生选了哪些课？
--- 课有哪些学生选？
--- 所有学生获得的总学分？ - student course student_course
-/*
-  --------
-  Tom | 10
-  ----+---
-  Jer |  5
-*/
