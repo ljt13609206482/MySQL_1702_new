@@ -28,7 +28,7 @@ SELECT
 FROM scott.emp e1 INNER JOIN scott.emp e2
     ON e1.MGR = e2.EMPNO;
 
-# 4. 返回雇员的雇佣日期早于其经理雇佣日期的员工及其经理姓名
+# 4. 返回雇员的雇佣日期早于其经理雇佣日期的员工及其经理姓名 -- ?
 SELECT
   e1.ENAME,
   e2.ENAME
@@ -59,12 +59,35 @@ FROM scott.emp e INNER JOIN scott.dept d
     ON e.DEPTNO = d.DEPTNO
 WHERE d.DNAME = 'sales';
 
+SELECT ENAME
+FROM scott.emp
+WHERE DEPTNO = (
+  SELECT dept.DEPTNO
+  FROM scott.dept
+  WHERE DNAME = 'sales'
+);
+
 # 9. 返回工资多于平均工资的员工
+SELECT *
+FROM scott.emp
+WHERE sal + ifnull(COMM, 0) > (
+  SELECT avg(sal + ifnull(COMM, 0)) -- average
+  FROM scott.emp
+);
+
 # 10. 返回与 scott 从事相同工作的员工
 SELECT *
 FROM scott.emp e1 INNER JOIN scott.emp e2
     ON e1.JOB = e2.JOB
 WHERE e2.ENAME = 'scott';
+
+SELECT *
+FROM scott.emp
+WHERE JOB = (
+  SELECT JOB
+  FROM scott.emp
+  WHERE ENAME = 'scott'
+);
 
 # 11. 返回比 30 部门员工平均工资高的员工姓名与工资
 
