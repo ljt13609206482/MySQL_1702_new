@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Map</title>
+    <script src="js/echarts.min.js"></script>
+    <script src="js/china.js"></script>
+</head>
+<body>
+<div id="main" style="height: 700px;"></div>
+<script>
+    var chart = echarts.init(document.getElementById('main'));
+
+    var myData = [
+
+        {name: '海门', value: [121.15, 31.89, 90]},
+        {name: '鄂尔多斯', value: [109.781327, 39.608266, 120]},
+        {name: '招远', value: [120.38, 37.35, 142]},
+        {name: '舟山', value: [122.207216, 29.985295, 123]}
+    ]
+
+
+    var option = {
+        geo: {
+            map: 'china'
+        },
+        series: [
+            {
+                name: '销量', // series名称
+                type: 'scatter', // series图表类型
+                coordinateSystem: 'geo', // series坐标系类型
+                data: myData
+            }
+        ]
+    };
+
+    chart.setOption(option);BaiduMap_cityCenter.txt
+</script>
+</body>
+</html>
