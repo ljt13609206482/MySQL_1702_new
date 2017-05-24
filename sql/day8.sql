@@ -124,18 +124,19 @@ ROLLBACK; -- roll back 回滚
 -- update WARD  sal + 1000
 
 START TRANSACTION;
-
+-- DML
 UPDATE scott.emp
-SET SAL = SAL + 1000
+SET ENAME = 'allen new'
 WHERE ENAME = 'allen';
-
-UPDATE scott.emp
-SET SAL = SAL - 1000
-WHERE ENAME = 'ward';
 
 COMMIT; -- 提交\ [kə'mɪt]
 
 ROLLBACK;
+
+CREATE VIEW scott.v_test -- DDL COMMIT
+AS
+  SELECT *
+  FROM scott.dept;
 
 SELECT *
 FROM scott.emp;
@@ -144,7 +145,32 @@ FROM scott.emp;
 -- describe
 
 
+-- save point 保留点
+START TRANSACTION;
 
+UPDATE scott.emp
+SET ename = 'ALLEN'
+WHERE EMPNO = 7499;
+
+SAVEPOINT a;
+
+DELETE FROM scott.emp
+WHERE EMPNO = 7499;
+
+SAVEPOINT b;
+
+INSERT INTO scott.emp (EMPNO, ENAME)
+  VALUE (1234, 'tester');
+
+SAVEPOINT c;
+
+DELETE FROM scott.emp;
+
+COMMIT;
+ROLLBACK;
+
+SELECT *
+FROM scott.emp;
 
 
 
