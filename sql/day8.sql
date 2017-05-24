@@ -93,3 +93,33 @@ WHERE sal > (
   FROM scott.emp
   WHERE e.DEPTNO = e.DEPTNO
 );
+
+-- ------------------
+/*
+transaction 事务
+
+SELECT ...
+
+---------------------------------
+UPDATE1 ...   ok    ok    X    X|
+UPDATE2 ...   ok    X    ok    X|
+---------------------------------
+
+SELECT ...
+*/
+
+START TRANSACTION;
+SELECT *
+FROM scott.emp;
+TRUNCATE TABLE scott.emp; --
+DELETE FROM scott.emp;
+ROLLBACK; -- roll back 回滚
+
+
+
+
+
+
+
+
+
