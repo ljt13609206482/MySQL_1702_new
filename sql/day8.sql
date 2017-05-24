@@ -100,6 +100,7 @@ transaction 事务
 
 SELECT ...
 
+DML
 ---------------------------------
 UPDATE1 ...   ok    ok    X    X|
 UPDATE2 ...   ok    X    ok    X|
@@ -109,11 +110,38 @@ SELECT ...
 */
 
 START TRANSACTION;
+
 SELECT *
 FROM scott.emp;
+
 TRUNCATE TABLE scott.emp; --
-DELETE FROM scott.emp;
+
+DELETE FROM scott.emp; -- DML
+
 ROLLBACK; -- roll back 回滚
+
+-- update ALLEN sal - 1000
+-- update WARD  sal + 1000
+
+START TRANSACTION;
+
+UPDATE scott.emp
+SET SAL = SAL + 1000
+WHERE ENAME = 'allen';
+
+UPDATE scott.emp
+SET SAL = SAL - 1000
+WHERE ENAME = 'ward';
+
+COMMIT; -- 提交\ [kə'mɪt]
+
+ROLLBACK;
+
+SELECT *
+FROM scott.emp;
+
+-- descend
+-- describe
 
 
 
