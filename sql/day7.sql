@@ -64,7 +64,7 @@ UPDATE scott.v_emp
 SET HIREDATE = '1981-6-1'
 WHERE HIREDATE = '1981-5-1';
 
-CREATE VIEW v_emp_dept
+CREATE VIEW scott.v_emp_dept
 AS
   SELECT
     e.ename,
@@ -72,7 +72,7 @@ AS
   FROM scott.emp e LEFT OUTER JOIN scott.dept d
       ON e.DEPTNO = d.DEPTNO;
 
-DROP VIEW v_emp_dept;
+DROP VIEW scott.v_emp_dept;
 
 SELECT *
 FROM scott.v_emp_dept;
