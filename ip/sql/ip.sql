@@ -42,6 +42,3 @@ SET id = NULL, count = NULL;
 
 SELECT *
 FROM db_1702.ip; -- 447621
-
-SELECT *
-FROM db_1702.city;

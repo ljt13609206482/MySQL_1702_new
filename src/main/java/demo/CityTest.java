@@ -40,6 +40,8 @@ public class CityTest {
 
         resultSet.close();
 
+        connection.setAutoCommit(false);
+        PreparedStatement statement = null;
         // 2. 查每一个城市的 ip 的数量
         for (Map.Entry<Integer, String> entry : cities.entrySet()) {
             preparedStatement = connection.prepareStatement(SQL_COUNT);
@@ -49,10 +51,14 @@ public class CityTest {
             int count = resultSet.getInt(1);
             int id = entry.getKey();
             // 3. 更行 city 表的 count 字段
-            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
+            statement = connection.prepareStatement(SQL_UPDATE);
             statement.setInt(1, count);
             statement.setInt(2, id);
-            statement.executeUpdate();
+            preparedStatement.addBatch();
+        }
+        if (statement != null) {
+            statement.executeBatch();
+            connection.commit();
             statement.close();
         }
 
