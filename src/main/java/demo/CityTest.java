@@ -60,7 +60,7 @@ public class CityTest {
         preparedStatement = connection.prepareStatement(SQL_QUERY);
         resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("ip/data/output.txt"))) {
+            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("ip/data/output.txt", true))) {
                 String city = resultSet.getString("city");
                 String lon = resultSet.getString("lon");
                 String lat = resultSet.getString("lat");

@@ -2,48 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Map</title>
+    <style>
+        * {
+            margin: 0;
+        }
+    </style>
     <script src="js/echarts.min.js"></script>
-    <script src="js/china.js"></script>
+    <script src="extension/bmap.js"></script>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
 </head>
 <body>
-<div id="map" style="height: 700px"></div>
+<div id="map" style="height: 1000px;"></div>
 <script>
     var chart = echarts.init(document.getElementById('map'));
+
     var ipData = [
-        {name: '广东', value: [113.394818, 23.408004, 26153]},
-        {name: '江苏', value: [119.368489, 33.013797, 23840]},
-        {name: '浙江', value: [119.957202, 29.159494, 21271]},
-        {name: '河南', value: [113.486804, 34.157184, 20275]},
-        {name: '湖北', value: [112.410562, 31.209316, 19905]},
-        {name: '四川', value: [102.89916, 30.367481, 18768]},
-        {name: '山东', value: [118.527663, 36.09929, 17910]},
-        {name: '辽宁', value: [122.753592, 41.6216, 17641]},
-        {name: '黑龙江', value: [128.047414, 47.356592, 16151]},
-        {name: '湖南', value: [111.720664, 27.695864, 15643]},
-        {name: '安徽', value: [117.216005, 31.859252, 14343]},
-        {name: '福建', value: [117.984943, 26.050118, 14084]},
-        {name: '吉林', value: [126.262876, 43.678846, 13131]},
-        {name: '广西', value: [108.924274, 23.552255, 12651]},
-        {name: '河北', value: [115.661434, 38.61384, 12267]},
-        {name: '陕西', value: [109.503789, 35.860026, 11122]},
-        {name: '江西', value: [115.676082, 27.757258, 9260]},
         {name: '重庆', value: [106.530635, 29.544606, 8995]},
         {name: '北京', value: [116.395645, 39.929986, 8564]},
         {name: '上海', value: [121.487899, 31.249162, 7519]},
-        {name: '山西', value: [112.515496, 37.866566, 6994]},
         {name: '广州', value: [113.30765, 23.120049, 5888]},
-        {name: '云南', value: [101.592952, 24.864213, 5886]},
         {name: '西安', value: [108.953098, 34.2778, 5694]},
         {name: '苏州', value: [120.619907, 31.317987, 5364]},
-        {name: '内蒙古', value: [114.415868, 43.468238, 5283]},
         {name: '哈尔滨', value: [126.657717, 45.773225, 5133]},
         {name: '武汉', value: [114.3162, 30.581084, 4708]},
         {name: '成都', value: [104.067923, 30.679943, 4706]},
-        {name: '甘肃', value: [102.457625, 38.103267, 4644]},
         {name: '深圳', value: [114.025974, 22.546054, 4452]},
-        {name: '新疆', value: [85.614899, 42.127001, 4423]},
-        {name: '贵州', value: [106.734996, 26.902826, 4353]},
         {name: '大连', value: [121.593478, 38.94871, 4037]},
         {name: '长春', value: [125.313642, 43.898338, 4000]},
         {name: '郑州', value: [113.649644, 34.75661, 3790]},
@@ -55,7 +39,6 @@
         {name: '天津', value: [117.210813, 39.14393, 3207]},
         {name: '吉林市', value: [126.564544, 43.871988, 3077]},
         {name: '金华', value: [119.652576, 29.102899, 2896]},
-        {name: '合肥', value: [117.282699, 31.866942, 2890]},
         {name: '沈阳', value: [123.432791, 41.808645, 2835]},
         {name: '泉州', value: [118.600362, 24.901652, 2820]},
         {name: '石家庄', value: [114.522082, 38.048958, 2748]},
@@ -69,12 +52,10 @@
         {name: '长沙', value: [112.979353, 28.213478, 2464]},
         {name: '齐齐哈尔', value: [123.987289, 47.3477, 2421]},
         {name: '昆明', value: [102.714601, 25.049153, 2174]},
-        {name: '宁夏', value: [106.155481, 37.321323, 2143]},
         {name: '徐州', value: [117.188107, 34.271553, 2055]},
         {name: '南阳', value: [112.542842, 33.01142, 2047]},
         {name: '厦门', value: [118.103886, 24.489231, 1976]},
         {name: '桂林', value: [110.26092, 25.262901, 1916]},
-        {name: '海南', value: [109.733755, 19.180501, 1911]},
         {name: '无锡', value: [120.305456, 31.570037, 1888]},
         {name: '香港', value: [114.186124, 22.293586, 1867]},
         {name: '兰州', value: [103.823305, 36.064226, 1772]},
@@ -91,7 +72,6 @@
         {name: '洛阳', value: [112.447525, 34.657368, 1550]},
         {name: '南充', value: [106.105554, 30.800965, 1518]},
         {name: '荆门', value: [112.21733, 31.042611, 1505]},
-        {name: '西藏', value: [89.137982, 31.367315, 1499]},
         {name: '常州', value: [119.981861, 31.771397, 1473]},
         {name: '潍坊', value: [119.142634, 36.716115, 1466]},
         {name: '江门', value: [113.078125, 22.575117, 1448]},
@@ -124,7 +104,6 @@
         {name: '鸡西', value: [130.941767, 45.32154, 1211]},
         {name: '咸宁', value: [114.300061, 29.880657, 1207]},
         {name: '永州', value: [111.614648, 26.435972, 1195]},
-        {name: '青海', value: [96.202544, 35.499761, 1189]},
         {name: '泰州', value: [119.919606, 32.476053, 1188]},
         {name: '济南', value: [117.024967, 36.682785, 1186]},
         {name: '湖州', value: [120.137243, 30.877925, 1180]},
@@ -190,8 +169,8 @@
         {name: '广安', value: [106.63572, 30.463984, 831]},
         {name: '伊春', value: [128.910766, 47.734685, 830]},
         {name: '日照', value: [119.50718, 35.420225, 827]},
-        {name: '珠海', value: [113.562447, 22.256915, 827]},
         {name: '内江', value: [105.073056, 29.599462, 827]},
+        {name: '珠海', value: [113.562447, 22.256915, 827]},
         {name: '焦作', value: [113.211836, 35.234608, 827]},
         {name: '西宁', value: [101.767921, 36.640739, 817]},
         {name: '辽源', value: [125.133686, 42.923303, 810]},
@@ -303,12 +282,12 @@
         {name: '文山', value: [104.089112, 23.401781, 332]},
         {name: '舟山', value: [122.169872, 30.03601, 332]},
         {name: '武威', value: [102.640147, 37.933172, 324]},
-        {name: '东营', value: [118.583926, 37.487121, 323]},
         {name: '双鸭山', value: [131.171402, 46.655102, 323]},
+        {name: '东营', value: [118.583926, 37.487121, 323]},
         {name: '忻州', value: [112.727939, 38.461031, 321]},
         {name: '黑河', value: [127.50083, 50.25069, 319]},
-        {name: '吴忠', value: [106.208254, 37.993561, 318]},
         {name: '天门', value: [113.12623, 30.649047, 318]},
+        {name: '吴忠', value: [106.208254, 37.993561, 318]},
         {name: '锡林郭勒盟', value: [116.02734, 43.939705, 313]},
         {name: '来宾', value: [109.231817, 23.741166, 302]},
         {name: '石嘴山', value: [106.379337, 39.020223, 300]},
@@ -386,14 +365,14 @@
         {name: '临高', value: [109.724101, 19.805922, 29]},
         {name: '昌都地区', value: [97.185582, 31.140576, 27]},
         {name: '迪庆州', value: [99.713682, 27.831029, 27]},
-        {name: '海北州', value: [100.879802, 36.960654, 26]},
         {name: '日喀则地区', value: [88.891486, 29.269023, 26]},
+        {name: '海北州', value: [100.879802, 36.960654, 26]},
         {name: '黄南州', value: [102.0076, 35.522852, 19]},
         {name: '保亭', value: [109.656113, 18.597592, 18]},
         {name: '阿拉尔', value: [81.291737, 40.61568, 17]},
         {name: '乐东', value: [109.062698, 18.658614, 14]},
-        {name: '果洛州', value: [100.223723, 34.480485, 11]},
         {name: '阿里地区', value: [81.107669, 30.404557, 11]},
+        {name: '果洛州', value: [100.223723, 34.480485, 11]},
         {name: '屯昌', value: [110.063364, 19.347749, 10]},
         {name: '海东地区', value: [102.085207, 36.51761, 8]},
         {name: '玉树州', value: [97.013316, 33.00624, 7]},
@@ -403,26 +382,134 @@
         {name: '吐鲁番地区', value: [89.181595, 42.96047, 1]},
         {name: '克孜勒苏州', value: [76.137564, 39.750346, 0]}
     ];
-    var option = {
-        geo: {
-            map: 'china'
-        },
-        tooltip : {
-            trigger: 'item'
-        },
-        series: [
-            {
-                name: '城市 IP 地址分布',
-                type: 'scatter',
-                coordinateSystem: 'geo',
-                data: ipData,
-                symbolSize: function (val) {
-                    return val[2] / 500;
-                }
+    var myData = [
+
+        {name: '海门', value: [121.15, 31.89, 90]},
+        {name: '鄂尔多斯', value: [109.781327, 39.608266, 120]},
+        {name: '招远', value: [120.38, 37.35, 142]},
+        {name: '舟山', value: [122.207216, 29.985295, 123]}
+    ];
+
+    var convertData = function (data) {
+        var res = [];
+        for (var i = 0; i < data.length; i++) {
+            var geoCoord = geoCoordMap[data[i].name];
+            if (geoCoord) {
+                res.push({
+                    name: data[i].name,
+                    value: geoCoord.concat(data[i].value)
+                });
             }
-        ]
+        }
+        return res;
     };
+
+    var option = {
+        bmap: {
+            zoom: 5,
+            roam: true, // 允许缩放
+//            mapStyle: {  // 百度地图自定义样式
+//                styleJson: [
+//                    // 陆地
+//                    {
+//                        "featureType": "land",
+//                        "elementType": "all",
+//                        "stylers": {
+//                            "color": "#073763"
+//                        }
+//                    },
+//                    // 水系
+//                    {
+//                        "featureType": "water",
+//                        "elementType": "all",
+//                        "stylers": {
+//                            "color": "#073763",
+//                            "lightness": -54
+//                        }
+//                    },
+//                    // 国道与高速
+//                    {
+//                        "featureType": "highway",
+//                        "elementType": "all",
+//                        "stylers": {
+//                            "color": "#45818e"
+//                        }
+//                    },
+//                    // 边界线
+//                    {
+//                        "featureType": "boundary",
+//                        "elementType": "all",
+//                        "stylers": {
+//                            "color": "#ffffff",
+//                            "lightness": -62,
+//                            "visibility": "on"
+//                        }
+//                    },
+//                    // 行政标注
+//                    {
+//                        "featureType": "label",
+//                        "elementType": "labels.text.fill",
+//                        "stylers": {
+//                            "color": "#ffffff",
+//                            "visibility": "on"
+//                        }
+//                    },
+//                    {
+//                        "featureType": "label",
+//                        "elementType": "labels.text.stroke",
+//                        "stylers": {
+//                            "color": "#444444",
+//                            "visibility": "on"
+//                        }
+//                    }
+//                ]
+//            },
+            visualMap: {	// 视觉映射组件
+                type: 'continuous',
+                min: 0,
+                max: 200,
+                calculable: true,
+                inRange: {
+                    color: ['#50a3ba', '#eac736', '#d94e5d']
+                },
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            series: [
+                {
+                    name: 'IP 地址分布',
+                    type: 'scatter',
+                    coordinateSystem: 'bmap', // 坐标系使用bmap
+                    data: convertData(ipData),
+                    symbolSize: function (val) {
+                        return val[2] / 200;
+                    },
+                    label: {
+                        normal: {
+                            formatter: '{b}',
+                            position: 'right',
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'purple'
+                        }
+                    }
+                }
+            ]
+        }
+    };
+
     chart.setOption(option);
+
+    var bmap = chart.getModel().getComponent('bmap').getBMap(); // 百度地图实例
+    bmap.addControl(new BMap.NavigationControl()); // 缩放控件
+    bmap.addControl(new BMap.ScaleControl()); // 比例尺
 </script>
 </body>
 </html>

@@ -9,11 +9,15 @@ CREATE TABLE db_1702.ip (
   COMMENT 'IP 地址表';
 
 SELECT *
-FROM db_1702.ip;
+FROM db_1702.ip; -- 447621
+
+TRUNCATE TABLE db_1702.city;
+SELECT sum(count)
+FROM db_1702.city;
 
 SELECT count(*)
-FROM db_1702.ip
-WHERE geo RLIKE '呼和浩特';
+FROM db_1702.ip;
+
 
 SELECT count(*)
 FROM db_1702.ip;
