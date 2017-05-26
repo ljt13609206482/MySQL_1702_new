@@ -39,6 +39,7 @@
         {name: '天津', value: [117.210813, 39.14393, 3207]},
         {name: '吉林市', value: [126.564544, 43.871988, 3077]},
         {name: '金华', value: [119.652576, 29.102899, 2896]},
+        {name: '合肥', value: [117.282699, 31.866942, 2890]},
         {name: '沈阳', value: [123.432791, 41.808645, 2835]},
         {name: '泉州', value: [118.600362, 24.901652, 2820]},
         {name: '石家庄', value: [114.522082, 38.048958, 2748]},
@@ -382,88 +383,11 @@
         {name: '吐鲁番地区', value: [89.181595, 42.96047, 1]},
         {name: '克孜勒苏州', value: [76.137564, 39.750346, 0]}
     ];
-    var myData = [
-
-        {name: '海门', value: [121.15, 31.89, 90]},
-        {name: '鄂尔多斯', value: [109.781327, 39.608266, 120]},
-        {name: '招远', value: [120.38, 37.35, 142]},
-        {name: '舟山', value: [122.207216, 29.985295, 123]}
-    ];
-
-    var convertData = function (data) {
-        var res = [];
-        for (var i = 0; i < data.length; i++) {
-            var geoCoord = geoCoordMap[data[i].name];
-            if (geoCoord) {
-                res.push({
-                    name: data[i].name,
-                    value: geoCoord.concat(data[i].value)
-                });
-            }
-        }
-        return res;
-    };
 
     var option = {
         bmap: {
             zoom: 5,
             roam: true, // 允许缩放
-//            mapStyle: {  // 百度地图自定义样式
-//                styleJson: [
-//                    // 陆地
-//                    {
-//                        "featureType": "land",
-//                        "elementType": "all",
-//                        "stylers": {
-//                            "color": "#073763"
-//                        }
-//                    },
-//                    // 水系
-//                    {
-//                        "featureType": "water",
-//                        "elementType": "all",
-//                        "stylers": {
-//                            "color": "#073763",
-//                            "lightness": -54
-//                        }
-//                    },
-//                    // 国道与高速
-//                    {
-//                        "featureType": "highway",
-//                        "elementType": "all",
-//                        "stylers": {
-//                            "color": "#45818e"
-//                        }
-//                    },
-//                    // 边界线
-//                    {
-//                        "featureType": "boundary",
-//                        "elementType": "all",
-//                        "stylers": {
-//                            "color": "#ffffff",
-//                            "lightness": -62,
-//                            "visibility": "on"
-//                        }
-//                    },
-//                    // 行政标注
-//                    {
-//                        "featureType": "label",
-//                        "elementType": "labels.text.fill",
-//                        "stylers": {
-//                            "color": "#ffffff",
-//                            "visibility": "on"
-//                        }
-//                    },
-//                    {
-//                        "featureType": "label",
-//                        "elementType": "labels.text.stroke",
-//                        "stylers": {
-//                            "color": "#444444",
-//                            "visibility": "on"
-//                        }
-//                    }
-//                ]
-//            },
             visualMap: {	// 视觉映射组件
                 type: 'continuous',
                 min: 0,
@@ -481,25 +405,7 @@
                     name: 'IP 地址分布',
                     type: 'scatter',
                     coordinateSystem: 'bmap', // 坐标系使用bmap
-                    data: convertData(ipData),
-                    symbolSize: function (val) {
-                        return val[2] / 200;
-                    },
-                    label: {
-                        normal: {
-                            formatter: '{b}',
-                            position: 'right',
-                            show: false
-                        },
-                        emphasis: {
-                            show: true
-                        }
-                    },
-                    itemStyle: {
-                        normal: {
-                            color: 'purple'
-                        }
-                    }
+                    data: ipData
                 }
             ]
         }
