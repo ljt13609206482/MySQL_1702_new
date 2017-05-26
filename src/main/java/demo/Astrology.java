@@ -3,7 +3,7 @@ package demo;
 import com.mysql.jdbc.Driver;
 
 import java.sql.*;
-import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -13,43 +13,43 @@ import java.util.Map;
  */
 public class Astrology {
     private static final String URL = "jdbc:mysql:///?user=root&password=system";
-    private static final String SQL =
-            "SELECT count(*)" +
-                    " FROM db_1702.v_password" +
-                    " WHERE substr(password, 5, 4) BETWEEN ? AND ?";
-    private static Hashtable<String, String> hashtable;
+    private static final String SQL = "SELECT count(*)" +
+            " FROM db_1702.v_password" +
+            " WHERE substr(password, 5, 4) BETWEEN ? AND ?";
 
     public static void main(String[] args) throws SQLException {
-        hashtable = new Hashtable<>();
-        hashtable.put("0321", "0420");
-        hashtable.put("0421", "0521");
-        hashtable.put("0522", "0622");
-        hashtable.put("0623", "0723");
-        hashtable.put("0724", "0823");
-        hashtable.put("0824", "0923");
-        hashtable.put("0924", "1024");
-        hashtable.put("1025", "1123");
-        hashtable.put("1124", "1222");
-        hashtable.put("1223", "1221");
-        hashtable.put("0101", "0121");
-        hashtable.put("0122", "0320");
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("白羊座", "0321 0419");
+        map.put("金牛座", "0420 0520");
+        map.put("双子座", "0521 0621");
+        map.put("巨蟹座", "0622 0722");
+        map.put("狮子座", "0723 0822");
+        map.put("处女座", "0823 0922");
+        map.put("天秤座", "0923 1023");
+        map.put("天蝎座", "1024 1121");
+        map.put("射手座", "1122 1220");
+        map.put("摩羯座1", "1221 1231"); //
+        map.put("摩羯座2", "0101 0120"); // 0 ？
+        map.put("水瓶座", "0121 0219");
+        map.put("双鱼座", "0220 0320");
 
         new Driver();
         Connection connection = DriverManager.getConnection(URL);
         PreparedStatement statement = connection.prepareStatement(SQL);
-        for (Map.Entry<String, String> entry : hashtable.entrySet()) {
-            statement.setString(1, entry.getKey());
-            statement.setString(2, entry.getValue());
 
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String from = entry.getValue().split(" ")[0];
+            String to = entry.getValue().split(" ")[1];
+            statement.setString(1, from);
+            statement.setString(2, to);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            System.out.println(resultSet.getInt(1));
-
+            int counter = resultSet.getInt(1);
+            System.out.println(entry.getKey() + "\t" + counter);
             resultSet.close();
         }
 
         statement.close();
         connection.close();
     }
-
 }

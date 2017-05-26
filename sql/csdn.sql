@@ -90,6 +90,20 @@ SELECT count(*)
 FROM db_1702.v_password
 WHERE substr(password, 5, 4) BETWEEN '0321' AND '0420'
 ORDER BY password DESC;
+/*
+白羊座	22896
+金牛座	23678
+双子座	26464
+巨蟹座	25291
+狮子座	26451
+处女座	29102
+天秤座	47598
+天蝎座	43056
+射手座	44054
+摩羯座 34109
+水瓶座	29566
+双鱼座	26249
+ */
 
 # 8. 密码是 QQ 号的 -- ?
 SELECT *
@@ -101,5 +115,37 @@ WHERE email REGEXP '@qq.com' AND trim(PASSWORD) = REPLACE(email, '@qq.com', '');
 # 10. 哪个运营商的用户最多
 
 # 11. 弱密码用户数据
+  # 短密码
+SELECT password
+FROM db_1702.csdn
+WHERE length(password) < 5;
+  # 纯数字密码
+SELECT password
+FROM db_1702.csdn
+WHERE password REGEXP '^[0-9]+$';
+  # 纯字母密码
+SELECT password
+FROM db_1702.csdn
+WHERE password REGEXP '^[a-zA-Z]+$';
 
 # 12. 强密码用户数据
+SELECT *
+FROM db_1702.csdn
+WHERE password = 'ppnn13%dkstFeb.1st';
+  # 长密码
+SELECT password
+FROM db_1702.csdn
+WHERE length(password) > 8;
+  # 字母和数字
+SELECT password
+FROM db_1702.csdn
+WHERE password REGEXP '^[a-zA-Z0-9]+$'
+ORDER BY id DESC
+LIMIT 500, 10000;
+
+  # 含特殊符号
+SELECT password
+FROM db_1702.csdn
+WHERE password REGEXP '^[a-zA-Z0-9!@#$%^&*()_+]+$'
+ORDER BY id DESC
+LIMIT 500, 10000;
