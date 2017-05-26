@@ -61,3 +61,48 @@ SELECT *
 FROM db_1702.csdn
 WHERE username = substr(email, 1, locate('@', email) - 1);
 
+-- ?
+SELECT *
+FROM db_1702.csdn
+WHERE email REGEXP '@qq.com' AND trim(password) = replace(email, '@qq.com', '');
+
+
+INSERT INTO db_1702.csdn VALUE (NULL, 'tester', '123', '123@qq.com');
+
+SELECT *
+FROM db_1702.csdn
+WHERE id = 31521;
+
+SELECT
+  curdate(),
+  current_date;
+SELECT
+  current_time,
+  curtime();
+SELECT now();
+
+SELECT date_add(now(), INTERVAL 31 DAY); -- interval 间隔
+SELECT date_sub(now(), INTERVAL 30 DAY); -- interval 间隔
+SELECT dayofweek(now());
+SELECT dayofyear(now());
+SELECT dayname(now());
+SELECT monthname(now());
+SELECT quarter(NOW()); -- quarter 四 1 quarters to 12
+SELECT week(now());
+
+SELECT *
+FROM db_1702.csdn
+WHERE email = '123@qq.com';
+
+CREATE INDEX idx_email
+  ON db_1702.csdn (email);
+
+ALTER TABLE db_1702.csdn
+MODIFY COLUMN email VARCHAR(191);
+
+DESC db_1702.csdn;
+
+-- 25马赫
+
+
+
