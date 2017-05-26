@@ -55,24 +55,46 @@ FROM db_1702.csdn
 WHERE username = substr(email, 1, locate('@', email) - 1);
 
 # 5. 密码可能是生日的数据 -- 378775
-SELECT count(*)
-FROM db_1702.csdn
-WHERE password REGEXP '^19[0-9]{2}0[1-9]{1}[0-3]{1}[0-9]{1}$' -- 235782
-UNION
-SELECT count(*)
-FROM db_1702.csdn
-WHERE password REGEXP '^19[0-9]{2}1[0-2]{1}[0-3]{1}[0-9]{1}$'; -- 142993
+SELECT count(password)
+FROM (
+       SELECT *
+       FROM db_1702.csdn
+       WHERE password REGEXP '^19[0-9]{2}0[1-9]{1}[0-3]{1}[0-9]{1}$' -- 235782
+       UNION
+       SELECT *
+       FROM db_1702.csdn
+       WHERE password REGEXP '^19[0-9]{2}1[0-2]{1}[0-3]{1}[0-9]{1}$' -- 142993
+     ) x;
 
 # 6. 哪一年出生的用户最多
+CREATE OR REPLACE VIEW db_1702.v_password
+AS
+  SELECT password
+  FROM db_1702.csdn
+  WHERE password REGEXP '^19[0-9]{2}0[1-9]{1}[0-3]{1}[0-9]{1}$' -- 235782
+  UNION ALL
+  SELECT password
+  FROM db_1702.csdn
+  WHERE password REGEXP '^19[0-9]{2}1[0-2]{1}[0-3]{1}[0-9]{1}$' -- 142993
+;
 
+SELECT
+  substr(password, 1, 4),
+  count(*)
+FROM db_1702.v_password
+GROUP BY 1
+ORDER BY 2 DESC;
 
-# 7. 哪个星座的用户最多
-
+# 7. 哪个星座的用户最多 - [0321, 0420]
+SELECT count(*)
+FROM db_1702.v_password
+WHERE substr(password, 5, 4) BETWEEN '0321' AND '0420'
+ORDER BY password DESC;
 
 # 8. 密码是 QQ 号的 -- ?
 SELECT *
 FROM db_1702.csdn
-WHERE email REGEXP '@qq.com' AND trim(password) = replace(email, '@qq.com', '');
+WHERE email REGEXP '@qq.com' AND trim(PASSWORD) = REPLACE(email, '@qq.com', '');
 
 # 9. 密码是手机号的
 
