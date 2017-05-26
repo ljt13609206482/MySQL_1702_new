@@ -15,5 +15,16 @@ ORDER BY count(password) DESC
 LIMIT 10 OFFSET 0;
 
 
-SELECT *
-FROM scott.emp;
+SELECT substr(email, locate('@', email) + 1) -- subString() indexOf()
+FROM db_1702.csdn
+GROUP BY substr(email, locate('@', email) + 1)
+ORDER BY count(substr(email, locate('@', email) + 1)) DESC
+LIMIT 10;
+
+
+SELECT
+  job,
+  deptno,
+  max(sal)
+FROM scott.emp
+GROUP BY JOB, DEPTNO;
