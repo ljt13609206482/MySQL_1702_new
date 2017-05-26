@@ -7,16 +7,6 @@ SELECT
 FROM scott.emp
 GROUP BY JOB; -- group 组
 
-
-SELECT password
-FROM db_1702.csdn
-GROUP BY password
-ORDER BY count(password) DESC
-LIMIT 10 OFFSET 0;
-
-
-
-
 SELECT
   job,
   deptno,
@@ -51,17 +41,6 @@ SELECT
   upper('h'),
   ucase('h');
 
-
-SELECT *
-FROM db_1702.csdn
-WHERE username = substr(email, 1, locate('@', email) - 1);
-
--- ?
-SELECT *
-FROM db_1702.csdn
-WHERE email REGEXP '@qq.com' AND trim(password) = replace(email, '@qq.com', '');
-
-
 INSERT INTO db_1702.csdn VALUE (NULL, 'tester', '123', '123@qq.com');
 
 SELECT *
@@ -85,7 +64,12 @@ SELECT monthname(now());
 SELECT quarter(NOW()); -- quarter 四 1 quarters to 12
 SELECT week(now());
 
-SELECT id, username, password, email, gender
+SELECT
+  id,
+  username,
+  password,
+  email,
+  gender
 FROM db_1702.csdn
 WHERE email = '123@qq.com';
 

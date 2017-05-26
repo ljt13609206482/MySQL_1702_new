@@ -22,7 +22,9 @@ GROUP BY password
 ORDER BY count(password) DESC
 LIMIT 10;
 
-# 各列值的快速模糊查询
+-- ======================== 查询练习题 ========================
+
+# 1. 各列值的快速模糊查询
 SELECT *
 FROM db_1702.csdn
 WHERE username LIKE '%tester%';
@@ -33,17 +35,26 @@ SELECT *
 FROM db_1702.csdn
 WHERE email LIKE '%test@qq.com%';
 
-# 排名前十的密码
-# 排名前十的邮箱
+# 2. 排名前十的密码
+SELECT password
+FROM db_1702.csdn
+GROUP BY password
+ORDER BY count(password) DESC
+LIMIT 10 OFFSET 0;
+
+# 3. 排名前十的邮箱
 SELECT substr(email, locate('@', email) + 1) -- subString() indexOf()
 FROM db_1702.csdn
 GROUP BY substr(email, locate('@', email) + 1)
 ORDER BY count(substr(email, locate('@', email) + 1)) DESC
 LIMIT 10;
 
-# 用户名和邮箱名相同的数据
+# 4. 用户名和邮箱名相同的数据
+SELECT *
+FROM db_1702.csdn
+WHERE username = substr(email, 1, locate('@', email) - 1);
 
-# 密码可能是生日的数据 -- 378775
+# 5. 密码可能是生日的数据 -- 378775
 SELECT count(*)
 FROM db_1702.csdn
 WHERE password REGEXP '^19[0-9]{2}0[1-9]{1}[0-3]{1}[0-9]{1}$' -- 235782
@@ -52,16 +63,21 @@ SELECT count(*)
 FROM db_1702.csdn
 WHERE password REGEXP '^19[0-9]{2}1[0-2]{1}[0-3]{1}[0-9]{1}$'; -- 142993
 
-# 哪一年出生的用户最多
+# 6. 哪一年出生的用户最多
 
 
-# 哪个星座的用户最多
+# 7. 哪个星座的用户最多
 
 
-# 密码是 QQ 号的
+# 8. 密码是 QQ 号的 -- ?
+SELECT *
+FROM db_1702.csdn
+WHERE email REGEXP '@qq.com' AND trim(password) = replace(email, '@qq.com', '');
 
-# 密码是手机号的
+# 9. 密码是手机号的
 
-# 哪个运营商的用户最多
+# 10. 哪个运营商的用户最多
 
-# 弱密码用户数据
+# 11. 弱密码用户数据
+
+# 12. 强密码用户数据
