@@ -51,8 +51,13 @@ SELECT bit_length('asdf'); -- 1 byte = 8 bit
 SELECT concat('hello', ', ', 'world', '!');
 SELECT length('中文');
 SELECT locate('e', 'hello');
-SELECT lcase('H'), upper('h'), ucase('h');
+SELECT
+  lcase('H'),
+  upper('h'),
+  ucase('h');
 
 
-
+SELECT *
+FROM db_1702.csdn
+WHERE username = substr(email, 1, locate('@', email) - 1);
 
