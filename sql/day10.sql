@@ -90,19 +90,59 @@ SELECT monthname(now());
 SELECT quarter(NOW()); -- quarter 四 1 quarters to 12
 SELECT week(now());
 
-SELECT *
+SELECT id, username, password, email, gender
 FROM db_1702.csdn
 WHERE email = '123@qq.com';
+
+-- DML insert delete
+
+-- 1: SELECT 2: DML 读写分离 同步
+
+SELECT *
+FROM db_1702.csdn
+WHERE password = '123';
+
+SELECT *
+FROM db_1702.csdn
+WHERE id = 6428633;
+
+CREATE INDEX idx_username
+  ON db_1702.csdn (username);
+
+CREATE INDEX idx_password
+  ON db_1702.csdn (password);
 
 CREATE INDEX idx_email
   ON db_1702.csdn (email);
 
+SHOW INDEX FROM db_1702.csdn;
+
+DROP INDEX idx_email
+ON db_1702.csdn;
+
 ALTER TABLE db_1702.csdn
-MODIFY COLUMN email VARCHAR(191);
+  MODIFY COLUMN username VARCHAR(191);
+ALTER TABLE db_1702.csdn
+  MODIFY COLUMN password VARCHAR(191);
+ALTER TABLE db_1702.csdn
+  MODIFY COLUMN email VARCHAR(191);
 
 DESC db_1702.csdn;
 
 -- 25马赫
 
+SHOW INDEX FROM db_sc.student_course;
+SHOW INDEX FROM db_sc.student; -- id departmentId
 
+CREATE TABLE scott.test (
+  id   INT AUTO_INCREMENT PRIMARY KEY,
+  col1 VARCHAR(255) UNIQUE, -- NULL
+  col2 INT
+);
+
+SHOW INDEX FROM scott.test;
+
+SHOW INDEX FROM db_1702.csdn;
+
+SHOW COLUMNS FROM db_1702.csdn;
 
