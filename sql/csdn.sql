@@ -115,15 +115,18 @@ WHERE email REGEXP '@qq.com' AND trim(PASSWORD) = REPLACE(email, '@qq.com', '');
 # 10. 哪个运营商的用户最多
 
 # 11. 弱密码用户数据
-  # 短密码
+
+# 短密码
 SELECT password
 FROM db_1702.csdn
 WHERE length(password) < 5;
-  # 纯数字密码
+
+# 纯数字密码
 SELECT password
 FROM db_1702.csdn
 WHERE password REGEXP '^[0-9]+$';
-  # 纯字母密码
+
+# 纯字母密码
 SELECT password
 FROM db_1702.csdn
 WHERE password REGEXP '^[a-zA-Z]+$';
@@ -132,20 +135,26 @@ WHERE password REGEXP '^[a-zA-Z]+$';
 SELECT *
 FROM db_1702.csdn
 WHERE password = 'ppnn13%dkstFeb.1st';
-  # 长密码
+
+# 长密码
 SELECT password
 FROM db_1702.csdn
 WHERE length(password) > 8;
-  # 字母和数字
+
+# 字母和数字
 SELECT password
 FROM db_1702.csdn
 WHERE password REGEXP '^[a-zA-Z0-9]+$'
 ORDER BY id DESC
 LIMIT 500, 10000;
 
-  # 含特殊符号
+# 含特殊符号
 SELECT password
 FROM db_1702.csdn
 WHERE password REGEXP '^[a-zA-Z0-9!@#$%^&*()_+]+$'
 ORDER BY id DESC
 LIMIT 500, 10000;
+
+SELECT *
+FROM db_1702.csdn
+WHERE password REGEXP '^123$';
