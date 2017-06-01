@@ -1,9 +1,5 @@
 # 核心功能
 /*
-1. 用户 user
-2. 文集 notebook
-3. 文章 note
-4. 评论 comment
 5. 关注 follow
 6. 专题 topic
 7. 收藏 collection
@@ -13,6 +9,7 @@
 DROP DATABASE IF EXISTS db_jianshu;
 CREATE DATABASE db_jianshu;
 
+# 1. 用户 user
 DROP TABLE IF EXISTS db_jianshu.user;
 CREATE TABLE db_jianshu.user (
   id       INT AUTO_INCREMENT PRIMARY KEY
@@ -27,6 +24,7 @@ CREATE TABLE db_jianshu.user (
   COMMENT '用户表';
 
 
+# 2. 文集 notebook
 DROP TABLE IF EXISTS db_jianshu.notebook;
 CREATE TABLE db_jianshu.notebook (
   id     INT AUTO_INCREMENT PRIMARY KEY
@@ -38,6 +36,7 @@ CREATE TABLE db_jianshu.notebook (
   COMMENT '文集表';
 
 
+# 3. 文章 note
 DROP TABLE IF EXISTS db_jianshu.note;
 CREATE TABLE db_jianshu.note (
   id         INT      AUTO_INCREMENT PRIMARY KEY
@@ -54,6 +53,7 @@ CREATE TABLE db_jianshu.note (
 )
   COMMENT '文章表';
 
+# 4. 评论 comment
 DROP TABLE IF EXISTS db_jianshu.comment;
 CREATE TABLE db_jianshu.comment (
   id        INT      AUTO_INCREMENT PRIMARY KEY
@@ -68,9 +68,10 @@ CREATE TABLE db_jianshu.comment (
 )
   COMMENT '评论表';
 
+# 外键
 ALTER TABLE db_jianshu.notebook
-  ADD CONSTRAINT
-  notebook_fk_userId
+ADD CONSTRAINT
+notebook_fk_userId
 FOREIGN KEY (userId)
 REFERENCES db_jianshu.user (id);
 
