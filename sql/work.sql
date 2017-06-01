@@ -37,6 +37,7 @@ REFERENCES db_work.user (id);
 INSERT INTO db_work.user (name, password, team) VALUE ('emp1', '123', '第一组');
 INSERT INTO db_work.user (name, password, team) VALUE ('emp2', '123', '第一组');
 INSERT INTO db_work.user (name, password, team) VALUE ('emp3', '123', '第二组');
+INSERT INTO db_work.user (name, password, team) VALUE ('emp4', '123', '第一组');
 INSERT INTO db_work.user (name, password, team, role) VALUE ('team_leader1', '123', '第一组', '组长');
 INSERT INTO db_work.user (name, password, team, role) VALUE ('team_leader2', '123', '第二组', '组长');
 
@@ -55,3 +56,42 @@ SELECT *
 FROM db_work.user
 WHERE name = '' AND password = '';
 
+-- 员工查看自己的日志
+SELECT
+  content,
+  time
+FROM db_work.log
+WHERE userId = 1;
+
+-- 组长查看本组的日志
+SELECT
+  u.name,
+  l.content,
+  l.time
+FROM db_work.user u LEFT OUTER JOIN db_work.log l -- ***
+    ON u.id = l.userId
+WHERE u.team = '第一组';
+
+SELECT
+  u.name,
+  l.content,
+  l.time
+FROM db_work.user u LEFT OUTER JOIN db_work.log l -- ***
+    ON u.id = l.userId
+WHERE u.team = '第一组' AND u.name = 'emp4';
+
+SELECT
+  u.name,
+  l.content,
+  l.time
+FROM db_work.user u INNER JOIN db_work.log l -- ***
+    ON u.id = l.userId
+WHERE u.team = '第一组' AND l.time = '2017-6-1';
+
+SELECT
+  u.name,
+  l.content,
+  l.time
+FROM db_work.user u INNER JOIN db_work.log l -- ***
+    ON u.id = l.userId
+WHERE u.team = '第一组' AND u.name = 'emp2' AND l.time = '2017-5-31';
