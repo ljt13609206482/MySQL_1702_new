@@ -1,0 +1,16 @@
+DROP DATABASE IF EXISTS db_test;
+CREATE DATABASE db_test;
+
+# 1.
+DROP TABLE IF EXISTS db_test.user;
+CREATE TABLE db_test.user (
+  id       INT AUTO_INCREMENT PRIMARY KEY
+  COMMENT 'ID PK',
+  email    VARCHAR(255) COMMENT '邮箱',
+  username VARCHAR(255) COMMENT '用户名',
+  password VARCHAR(255) COMMENT '密码'
+)
+  COMMENT '用户表';
+
+# INSERT
+# SELECT
