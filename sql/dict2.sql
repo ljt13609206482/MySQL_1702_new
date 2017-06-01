@@ -39,7 +39,6 @@ DROP TABLE IF EXISTS db_dict.detail;
 CREATE TABLE db_dict.detail (
   id             INT AUTO_INCREMENT PRIMARY KEY
   COMMENT 'ID PK',
-  partOfSpeech   VARCHAR(255) COMMENT '词性',
   detailChinese  VARCHAR(255) COMMENT '详尽释义',
   partOfSpeechId INT COMMENT '词性 ID FK'
 )
@@ -83,4 +82,69 @@ ALTER TABLE db_dict.sentence
   sentence_fk_partOfSpeechId
 FOREIGN KEY (partOfSpeechId)
 REFERENCES db_dict.part_of_speech (id);
+
+
+INSERT INTO db_dict.word VALUE (NULL, 'test', '[test]', '[test]');
+
+INSERT INTO db_dict.part_of_speech VALUE (NULL, 'n.', 1);
+INSERT INTO db_dict.part_of_speech VALUE (NULL, 'vt.', 1);
+
+INSERT INTO db_dict.concise VALUE (NULL, '考验；试验；测试', 1);
+INSERT INTO db_dict.concise VALUE (NULL, '试验；测试；接受测验', 2);
+
+INSERT INTO db_dict.detail VALUE (NULL, '检验，化验，试验', 1);
+INSERT INTO db_dict.detail VALUE (NULL, '考验', 1);
+INSERT INTO db_dict.detail VALUE (NULL, '试验，测验，进行测验，测试', 2);
+INSERT INTO db_dict.detail VALUE (NULL, '考验', 2);
+
+INSERT INTO db_dict.sentence VALUE (NULL, '
+We achieved within seven months an agreement that has stood the test of time.', '我们在七个月内完成一项协议,而且经受住了时间的考验。', 1);
+INSERT INTO db_dict.sentence VALUE (NULL, 'e2', 'c2', 1);
+INSERT INTO db_dict.sentence VALUE (NULL, 'e3', 'c3', 2);
+INSERT INTO db_dict.sentence VALUE (NULL, 'e4', 'c4', 2);
+
+SELECT
+  english,
+  phoneticUk,
+  phoneticUs
+FROM db_dict.word
+WHERE english = 'test';
+
+SELECT
+  w.english,
+  w.phoneticUk,
+  w.phoneticUs,
+  p.partOfSpeech
+FROM db_dict.word w INNER JOIN db_dict.part_of_speech p
+    ON w.id = p.wordId
+WHERE w.english = 'test';
+
+SELECT
+  w.english,
+  w.phoneticUk,
+  w.phoneticUs,
+  p.partOfSpeech,
+  d.detailChinese
+FROM db_dict.word w INNER JOIN db_dict.part_of_speech p
+  INNER JOIN db_dict.detail d
+    ON w.id = p.wordId AND p.id = d.partOfSpeechId
+WHERE w.english = 'test';
+
+SELECT
+  w.english,
+  w.phoneticUk,
+  w.phoneticUs,
+  p.partOfSpeech,
+  c.conciseChinese,
+  d.detailChinese,
+  s.english,
+  s.chinese
+FROM db_dict.word w
+  INNER JOIN db_dict.part_of_speech p
+  INNER JOIN db_dict.detail d
+  INNER JOIN db_dict.sentence s
+  INNER JOIN db_dict.concise c
+    ON w.id = p.wordId AND p.id = d.partOfSpeechId AND p.id = s.partOfSpeechId AND p.id = c.partOfSpeechId
+WHERE w.english = 'test';
+
 
