@@ -1,6 +1,6 @@
 # 核心功能
 /*
-8. 打赏 pay
+
 */
 
 DROP DATABASE IF EXISTS db_jianshu;
@@ -17,7 +17,9 @@ CREATE TABLE db_jianshu.user (
   COMMENT '手机号',
   password VARCHAR(255) NOT NULL
   COMMENT '密码',
-  avatar   VARCHAR(255) NOT NULL DEFAULT 'default_avatar.png'
+  avatar   VARCHAR(255) NOT NULL DEFAULT 'default_avatar.png',
+  pay      INT                   DEFAULT 2
+  COMMENT '打赏金额，默认-2元；NULL-关闭打赏'
 )
   COMMENT '用户表';
 
@@ -47,7 +49,6 @@ CREATE TABLE db_jianshu.note (
   COMMENT '阅读次数',
   likes      INT      DEFAULT 0
   COMMENT '喜欢次数',
-  pay        INT COMMENT '打赏金额 NULL-不需要打赏',
   notebookId INT COMMENT 'FK 文集 ID'
 )
   COMMENT '文章表';
@@ -110,6 +111,19 @@ CREATE TABLE db_jianshu.bookmark (
   noteId INT COMMENT 'FK 被收藏文章 ID'
 )
   COMMENT '收藏表';
+
+# 9. 打赏 pay
+DROP TABLE IF EXISTS db_jianshu.bookmark;
+CREATE TABLE db_jianshu.bookmark (
+  id      INT AUTO_INCREMENT PRIMARY KEY
+  COMMENT 'ID PK',
+  amount  INT NOT NULL
+  COMMENT '',
+  message VARCHAR(255) COMMENT '',
+  userId  INT COMMENT 'FK',
+  noteId  INT COMMENT 'FK'
+)
+  COMMENT '';
 
 # 外键
 ALTER TABLE db_jianshu.notebook
@@ -206,7 +220,7 @@ INSERT INTO db_jianshu.note (title, content, notebookId) VALUE ('tom title...', 
 
 INSERT INTO db_jianshu.comment VALUE (NULL, 'Jerry COMMENT ', '2017-6-2 10:00:00', 1, 2, NULL); -- 1
 
-INSERT INTO db_jianshu.comment VALUE (NULL, 'Jerry COMMENT ', '2017-6-2 10:01:00', NULL, 2, 1); -- 2
+INSERT INTO db_jianshu.comment VALUE (NULL, 'Jerry COMMENT ', '2017-6-2 10:01:00', 1, 2, 1); -- 2
 
 INSERT INTO db_jianshu.follow (userId, followedUserId) VALUE (2, 1);
 
@@ -240,12 +254,28 @@ SELECT
   u.nick,
   n.title,
   n.content,
-  n.time
+  n.time,
+  n.views,
+  count(*) AS 评论次数,
+  -- ？
+  n.likes
 FROM db_jianshu.bookmark b INNER JOIN db_jianshu.note n
   INNER JOIN db_jianshu.notebook nb
   INNER JOIN db_jianshu.user u
-    ON b.noteId = n.id AND n.notebookId = nb.id AND nb.userId = u.id
+  INNER JOIN db_jianshu.comment c
+    ON b.noteId = n.id AND n.notebookId = nb.id AND nb.userId = u.id AND n.id = c.noteId
 WHERE b.userId = 2;
 /*
 <img src="default_avatar.png">
  */
+
+-- note id 1
+
+SELECT count(*)
+FROM db_jianshu.note n INNER JOIN db_jianshu.comment c
+    ON n.id = c.noteId
+WHERE n.id = 1;
+
+
+SELECT *
+FROM db_jianshu.comment;
