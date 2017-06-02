@@ -1,6 +1,6 @@
 # 核心功能
 /*
-
+简信
 */
 
 DROP DATABASE IF EXISTS db_jianshu;
@@ -9,17 +9,19 @@ CREATE DATABASE db_jianshu;
 # 1. 用户 user
 DROP TABLE IF EXISTS db_jianshu.user;
 CREATE TABLE db_jianshu.user (
-  id       INT                   AUTO_INCREMENT PRIMARY KEY
+  id       INT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               AUTO_INCREMENT PRIMARY KEY
   COMMENT 'ID PK',
-  nick     VARCHAR(15)  NOT NULL UNIQUE
+  nick     VARCHAR(15)   NOT NULL UNIQUE
   COMMENT '昵称',
   mobile   VARCHAR(191) UNIQUE
   COMMENT '手机号',
   password VARCHAR(255) NOT NULL
   COMMENT '密码',
-  avatar   VARCHAR(255) NOT NULL DEFAULT 'default_avatar.png',
-  pay      INT                   DEFAULT 2
-  COMMENT '打赏金额，默认-2元；NULL-关闭打赏'
+  avatar   VARCHAR(255) NOT NULL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               DEFAULT 'default_avatar.png',
+  pay      INT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 DEFAULT 2
+  COMMENT '打赏金额，默认-2元；NULL-关闭打赏',
+  money    DECIMAL(8, 2) NOT NULL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              DEFAULT 0
+  COMMENT '账户余额'
 )
   COMMENT '用户表';
 
@@ -28,7 +30,7 @@ DROP TABLE IF EXISTS db_jianshu.notebook;
 CREATE TABLE db_jianshu.notebook (
   id     INT AUTO_INCREMENT PRIMARY KEY
   COMMENT 'ID PK',
-  title  VARCHAR(255) NOT NULL
+  title VARCHAR(255) NOT NULL
   COMMENT '名称',
   userId INT COMMENT 'FK 用户 ID'
 )
@@ -39,41 +41,43 @@ DROP TABLE IF EXISTS db_jianshu.note;
 CREATE TABLE db_jianshu.note (
   id         INT      AUTO_INCREMENT PRIMARY KEY
   COMMENT 'ID PK',
-  title      VARCHAR(255) NOT NULL
+  title VARCHAR(255) NOT NULL
   COMMENT '标题',
-  content    TEXT         NOT NULL
+  content TEXT       NOT NULL
   COMMENT '内容',
-  time       DATETIME DEFAULT now()
+  time    DATETIME DEFAULT now()
   COMMENT '时间',
-  views      INT      DEFAULT 0
+  views   INT      DEFAULT 0
   COMMENT '阅读次数',
-  likes      INT      DEFAULT 0
-  COMMENT '喜欢次数',
   notebookId INT COMMENT 'FK 文集 ID'
 )
   COMMENT '文章表';
+
+# like table: id userId noteId
 
 # 4. 评论 comment
 DROP TABLE IF EXISTS db_jianshu.comment;
 CREATE TABLE db_jianshu.comment (
   id        INT      AUTO_INCREMENT PRIMARY KEY
   COMMENT 'ID PK',
-  content   TEXT NOT NULL
+  content TEXT NOT NULL
   COMMENT '内容',
-  time      DATETIME DEFAULT now()
+  time    DATETIME DEFAULT now()
   COMMENT '时间',
-  noteId    INT COMMENT 'FK 文章 ID',
-  userId    INT COMMENT 'FK 用户 ID',
+  noteId  INT COMMENT 'FK 文章 ID',
+  userId  INT COMMENT 'FK 用户 ID',
   commentId INT COMMENT 'FK 评论 ID'
 )
   COMMENT '评论表';
+
+# zan table: id userId commentId time
 
 # 5. 专题 collection
 DROP TABLE IF EXISTS db_jianshu.collection;
 CREATE TABLE db_jianshu.collection (
   id     INT AUTO_INCREMENT PRIMARY KEY
   COMMENT 'ID PK',
-  title  VARCHAR(255) NOT NULL
+  title VARCHAR(255) NOT NULL
   COMMENT '名称',
   userId INT COMMENT 'FK 用户 ID'
 )
@@ -93,11 +97,11 @@ DROP TABLE IF EXISTS db_jianshu.follow;
 CREATE TABLE db_jianshu.follow (
   id                   INT               AUTO_INCREMENT PRIMARY KEY
   COMMENT 'ID PK',
-  time                 DATETIME NOT NULL DEFAULT now()
+  time DATETIME NOT NULL DEFAULT now()
   COMMENT '时间',
-  userId               INT COMMENT 'FK 关注者 ID',
-  followedUserId       INT COMMENT 'FK 被关注用户 ID',
-  followedNotebookId   INT COMMENT 'FK 被关注文集 ID',
+  userId INT COMMENT 'FK 关注者 ID',
+  followedUserId INT COMMENT 'FK 被关注用户 ID',
+  followedNotebookId INT COMMENT 'FK 被关注文集 ID',
   followedCollectionId INT COMMENT 'FK 被关注专题 ID'
 )
   COMMENT '关注表';
@@ -113,17 +117,19 @@ CREATE TABLE db_jianshu.bookmark (
   COMMENT '收藏表';
 
 # 9. 打赏 pay
-DROP TABLE IF EXISTS db_jianshu.bookmark;
-CREATE TABLE db_jianshu.bookmark (
+DROP TABLE IF EXISTS db_jianshu.pay;
+CREATE TABLE db_jianshu.pay (
   id      INT AUTO_INCREMENT PRIMARY KEY
   COMMENT 'ID PK',
-  amount  INT NOT NULL
-  COMMENT '',
-  message VARCHAR(255) COMMENT '',
-  userId  INT COMMENT 'FK',
-  noteId  INT COMMENT 'FK'
+  amount INT           NOT NULL
+  COMMENT '金额',
+  message VARCHAR(255) COMMENT '留言',
+  method  VARCHAR(255) NOT NULL
+  COMMENT '支付方式',
+  userId  INT COMMENT 'FK 打赏用户 ID',
+  noteId  INT COMMENT 'FK 文章 ID'
 )
-  COMMENT '';
+  COMMENT '打赏表';
 
 # 外键
 ALTER TABLE db_jianshu.notebook
@@ -209,6 +215,19 @@ ALTER TABLE db_jianshu.bookmark
   bookmark_fk_noteId
 FOREIGN KEY (noteId)
 REFERENCES db_jianshu.note (id);
+
+ALTER TABLE db_jianshu.pay
+  ADD CONSTRAINT
+  pay_fk_userId
+FOREIGN KEY (userId)
+REFERENCES db_jianshu.user (id);
+
+ALTER TABLE db_jianshu.pay
+  ADD CONSTRAINT
+  pay_fk_noteId
+FOREIGN KEY (noteId)
+REFERENCES db_jianshu.note (id);
+
 -- 样本数据
 INSERT INTO db_jianshu.user (nick, mobile, password) VALUE ('Tom', '123', 'abc'); -- 1
 INSERT INTO db_jianshu.user (nick, mobile, password) VALUE ('Jerry', '456', 'abc'); -- 2
@@ -226,6 +245,7 @@ INSERT INTO db_jianshu.follow (userId, followedUserId) VALUE (2, 1);
 
 INSERT INTO db_jianshu.bookmark VALUE (NULL, 2, 1);
 
+-- SELECT
 SELECT *
 FROM db_jianshu.user;
 
@@ -278,4 +298,20 @@ WHERE n.id = 1;
 
 
 SELECT *
-FROM db_jianshu.comment;
+FROM db_jianshu.user;
+
+START TRANSACTION;
+
+# 1.
+INSERT INTO db_jianshu.pay VALUE (NULL, 2, 'message...', 'wechat', 2, 1);
+
+# 2.
+UPDATE db_jianshu.user
+SET money = money + 2
+WHERE id = 1;
+
+COMMIT;
+-- ROLLBACK;
+
+# 3.
+# UPDATE
