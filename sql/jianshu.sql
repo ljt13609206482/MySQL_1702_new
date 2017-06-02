@@ -276,9 +276,7 @@ SELECT
   n.content,
   n.time,
   n.views,
-  count(*) AS 评论次数,
-  -- ？
-  n.likes
+  count(*) AS 评论次数 -- ？
 FROM db_jianshu.bookmark b INNER JOIN db_jianshu.note n
   INNER JOIN db_jianshu.notebook nb
   INNER JOIN db_jianshu.user u
