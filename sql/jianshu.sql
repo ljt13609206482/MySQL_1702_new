@@ -1,8 +1,9 @@
 # 核心功能
 /*
-5. 关注 follow
-6. 专题 topic
-7. 收藏 collection
+5. 专题 collection
+6. 关注 follow
+
+7. 收藏 bookmarks
 8. 打赏 pay
 */
 
@@ -23,7 +24,6 @@ CREATE TABLE db_jianshu.user (
 )
   COMMENT '用户表';
 
-
 # 2. 文集 notebook
 DROP TABLE IF EXISTS db_jianshu.notebook;
 CREATE TABLE db_jianshu.notebook (
@@ -34,7 +34,6 @@ CREATE TABLE db_jianshu.notebook (
   userId INT COMMENT 'FK 用户 ID'
 )
   COMMENT '文集表';
-
 
 # 3. 文章 note
 DROP TABLE IF EXISTS db_jianshu.note;
@@ -70,8 +69,8 @@ CREATE TABLE db_jianshu.comment (
 
 # 外键
 ALTER TABLE db_jianshu.notebook
-ADD CONSTRAINT
-notebook_fk_userId
+  ADD CONSTRAINT
+  notebook_fk_userId
 FOREIGN KEY (userId)
 REFERENCES db_jianshu.user (id);
 
@@ -101,3 +100,29 @@ ALTER TABLE db_jianshu.comment
   comment_fk_commentId
 FOREIGN KEY (commentId)
 REFERENCES db_jianshu.comment (id);
+
+
+INSERT INTO db_jianshu.user VALUE (NULL, 'Tom', '123', 'abc'); -- 1
+INSERT INTO db_jianshu.user VALUE (NULL, 'Jerry', '456', 'abc'); -- 2
+
+INSERT INTO db_jianshu.notebook VALUE (NULL, 'Tom notebook', 1); -- 1
+INSERT INTO db_jianshu.notebook VALUE (NULL, 'Jerry notebook', 2); -- 2
+
+INSERT INTO db_jianshu.note (content, notebookId) VALUE ('tom note content...', 1); -- 1
+
+INSERT INTO db_jianshu.comment VALUE (NULL, 'Jerry comment', '2017-6-2 10:00:00', 1, 2, NULL); -- 1
+
+INSERT INTO db_jianshu.comment VALUE (NULL, 'Jerry comment', '2017-6-2 10:01:00', NULL, 2, 1); -- 2
+
+SELECT *
+FROM db_jianshu.user;
+
+SELECT *
+FROM db_jianshu.notebook;
+
+SELECT *
+FROM db_jianshu.note;
+
+SELECT *
+FROM db_jianshu.comment;
+
